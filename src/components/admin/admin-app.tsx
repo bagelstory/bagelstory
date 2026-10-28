@@ -26,19 +26,35 @@ const STATUS_STYLE: Record<OrderStatus, string> = {
 };
 
 export function AdminApp() {
-  const supabase = getBrowserClient();
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
+  const [configError, setConfigError] = useState<string | null>(null);
 
+  // Le client Supabase n'est créé que dans le navigateur (jamais
+  // pendant la compilation), pour que le build ne dépende pas des clés.
   useEffect(() => {
+    let supabase: ReturnType<typeof getBrowserClient>;
+    try {
+      supabase = getBrowserClient();
+    } catch (e) {
+      setConfigError(e instanceof Error ? e.message : "Configuration Supabase invalide.");
+      return;
+    }
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setReady(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
     return () => sub.subscription.unsubscribe();
-  }, [supabase]);
+  }, []);
 
+  if (configError) {
+    return (
+      <main className="grid min-h-dvh place-items-center bg-ink px-6 text-center text-cream">
+        <p className="max-w-md">{configError}</p>
+      </main>
+    );
+  }
   if (!ready) return <div className="min-h-dvh bg-ink" />;
   return session ? <Kitchen /> : <Login />;
 }
