@@ -78,7 +78,7 @@ export default async function ConfirmationPage({ params }: { params: { id: strin
             </div>
           ))}
           <p className="rounded-xl bg-ink/5 px-4 py-3 text-sm text-ink/70">
-            Votre commande est déjà en cuisine. Rien n'est débité en ligne : le paiement se fait auprès de l'équipe.
+            Votre commande est déjà en cuisine. Rien n’est débité en ligne : le paiement se fait auprès de l’équipe.
           </p>
         </section>
 

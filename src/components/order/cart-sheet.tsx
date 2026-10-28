@@ -104,7 +104,7 @@ export function CartSheet({ open, onOpenChange }: { open: boolean; onOpenChange:
             <>
               <div>
                 <label htmlFor="order-note" className="mb-2 block font-semibold text-ink">
-                  Message pour l'équipe <span className="font-normal text-ink/50">(facultatif)</span>
+                  Message pour l’équipe <span className="font-normal text-ink/50">(facultatif)</span>
                 </label>
                 <Textarea
                   id="order-note"
